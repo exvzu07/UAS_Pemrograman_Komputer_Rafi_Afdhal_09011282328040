@@ -1,0 +1,54 @@
+import java.util.Scanner;
+
+public class UserAuthentication {
+
+    private static final String NAMA_PENGGUNA = "Rafi";
+    private static final String KATA_SANDI = "Fiizura05";
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        boolean continueAuthentication = true;
+
+        while (continueAuthentication) {
+            System.out.print("Masukkan nama pengguna: ");
+            String inputNamaPengguna = scanner.nextLine();
+
+            System.out.print("Masukkan kata sandi: ");
+            String inputKataSandi = scanner.nextLine();
+
+            try {
+                if (autentikasi(inputNamaPengguna, inputKataSandi)) {
+                    System.out.println("Autentikasi Berhasil");
+                } else {
+                    System.out.println("Autentikasi Gagal");
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+
+            boolean inputValid = false;
+            while (!inputValid) {
+                System.out.print("Apakah Anda ingin mencoba lagi? (y/n): ");
+                String pilihan = scanner.nextLine();
+                if (pilihan.equalsIgnoreCase("y")) {
+                    inputValid = true;
+                } else if (pilihan.equalsIgnoreCase("n")) {
+                    continueAuthentication = false;
+                    inputValid = true;
+                    System.out.println("Terima kasih. Program Berhenti.");
+                } else {
+                    System.out.println("Pilihan tidak valid. Silakan masukkan 'y' atau 'n'.");
+                }
+            }
+        }
+
+        scanner.close();
+    }
+
+    private static boolean autentikasi(String namaPengguna, String kataSandi) {
+        if (namaPengguna == null || kataSandi == null) {
+            throw new IllegalArgumentException("Nama pengguna atau kata sandi tidak boleh null");
+        }
+        return NAMA_PENGGUNA.equals(namaPengguna) && KATA_SANDI.equals(kataSandi);
+    }
+}
